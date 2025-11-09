@@ -13,7 +13,16 @@
 - **MediatR (опционально)** — CQRS (если используется)
 
 ## 🗂️ Структура проекта
-ArticleApi/ ├── src/ │ ├── ArticleApi.Application/ # DTO, сервисы, интерфейсы │ ├── ArticleApi.Domain/ # Сущности, Value Objects │ ├── ArticleApi.Infrastructure/ # EF Core, репозитории, реализации │ └── ArticleApi.Api/ # Контроллеры, Startup, Program.cs ├── tests/ │ ├── ArticleApi.Tests.Unit/ # Юнит-тесты (xUnit, Moq) │ └── ArticleApi.Tests.Integration/ (опционально) ├── .gitignore ├── README.md └── ArticleApi.sln
+ArticleApi/ 
+│ ├── ArticleApi.Application/ # DTO, сервисы, интерфейсы 
+│ ├── ArticleApi.Domain/ # Сущности, Value Objects 
+│ ├── ArticleApi.Infrastructure/ # EF Core, репозитории, реализации 
+│ ├── ArticleApi.Api/ # Контроллеры, Startup, Program.cs 
+│ ├── ArticleApi.Tests.Unit/ # Юнит-тесты (xUnit, Moq) 
+│ └── ArticleApi.Tests.Integration/ (опционально) 
+├── .gitignore 
+├── README.md 
+└── ArticleApi.sln
 
 
 Структура проекта:
@@ -142,8 +151,9 @@ FROM base AS final
 WORKDIR /app
 COPY --from=build /app/publish .
 ENTRYPOINT ["dotnet", "ArticleApi.Api.dll"]
-
+```
 Соберите и запустите:
+```
 docker build -t articleapi -f src/ArticleApi.Api/Dockerfile .
 docker run -d -p 8080:80 --name my-articleapi articleapi
 ```

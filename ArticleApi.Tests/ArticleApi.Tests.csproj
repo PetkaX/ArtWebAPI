@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.2" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.*" />
+    <PackageReference Include="xunit" Version="2.5.*" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.5.*" />
+    <PackageReference Include="Moq" Version="4.20.*" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.*" />
+    <PackageReference Include="Npgsql" Version="8.0.*" />
+    <PackageReference Include="Testcontainers.PostgreSql" Version="3.7.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ArticleApi.Application\ArticleApi.Application.csproj" />
+    <ProjectReference Include="..\ArticleApi.Presentation\ArticleApi.Presentation.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+</Project>

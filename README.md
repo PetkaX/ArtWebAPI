@@ -13,6 +13,7 @@
 - **MediatR (опционально)** — CQRS (если используется)
 
 ## 🗂️ Структура проекта
+```
 ArticleApi/ 
 │ ├── ArticleApi.Application/ # DTO, сервисы, интерфейсы 
 │ ├── ArticleApi.Domain/ # Сущности, Value Objects 
@@ -23,7 +24,7 @@ ArticleApi/
 ├── .gitignore 
 ├── README.md 
 └── ArticleApi.sln
-
+```
 
 Структура проекта:
 
@@ -50,8 +51,10 @@ ArticleApi.Presentation — ASP.NET Core Web API.
 
 ### 1. Установка зависимостей
 
-```bash
-dotnet restore```
+```
+bash
+dotnet restore
+```
 
 ### 2. Настройка БД
 Скопируйте appsettings.json и создайте appsettings.Development.json:

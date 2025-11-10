@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16
+    container_name: artwebapi_db
+    environment:
+      POSTGRES_PASSWORD: yourpassword
+      POSTGRES_USER: postgres
+      POSTGRES_DB: ArticleDb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  api:
+    build: .
+    container_name: artwebapi
+    ports:
+      - "8080:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=ArticleDb;Username=postgres;Password=yourpassword
+    depends_on:
+      - db
+    restart: unless-stopped
+
+volumes:
+  postgres_data:

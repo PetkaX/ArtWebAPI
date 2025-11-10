@@ -30,6 +30,5 @@ public static class TagValidator
 
         if (dto.Name.Length > 256)
             throw new ArgumentException("Название тега не может превышать 256 символов.", nameof(dto.Name));
-
     }
 }

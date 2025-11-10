@@ -164,5 +164,5 @@ docker run -d -p 8080:80 --name my-articleapi articleapi
 ## 🧑‍💻 Автор
 
 **Гришко Пётр Юрьевич** — разработчик API
-![telegram](https://cdn-icons-png.flaticon.com/128/2111/2111646.png) https://t.me/petkax
+> https://t.me/petkax
 

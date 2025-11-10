@@ -67,7 +67,11 @@ public class TagsController(TagService tagService) : ControllerBase
         }
         catch (InvalidOperationException ex)
         {
-            return NotFound(new { error = ex.Message });
+            // Различать типы NotFound vs Conflict
+            if (ex.Message.Contains("не найден"))
+                return NotFound(new { error = ex.Message });
+            else
+                return BadRequest(new { error = ex.Message });
         }
     }
 

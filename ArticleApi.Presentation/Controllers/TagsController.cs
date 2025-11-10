@@ -10,6 +10,8 @@ namespace ArticleApi.Presentation.Controllers;
 public class TagsController(TagService tagService) : ControllerBase
 {
     [HttpGet]
+    [ProducesResponseType(typeof(IEnumerable<TagDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<IEnumerable<TagDto>>> GetAll(CancellationToken ct)
     {
         var tags = await tagService.GetAllAsync(ct);
@@ -17,6 +19,9 @@ public class TagsController(TagService tagService) : ControllerBase
     }
 
     [HttpGet("{id:guid}")]
+    [ProducesResponseType(typeof(TagDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<TagDto>> GetById(Guid id, CancellationToken ct)
     {
         var tag = await tagService.GetByIdAsync(id, ct);
@@ -24,6 +29,9 @@ public class TagsController(TagService tagService) : ControllerBase
     }
 
     [HttpPost]
+    [ProducesResponseType(typeof(TagDto), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<TagDto>> Create(CreateTagDto dto, CancellationToken ct)
     {
         try
@@ -42,6 +50,10 @@ public class TagsController(TagService tagService) : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
+    [ProducesResponseType(typeof(TagDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Update(Guid id, UpdateTagDto dto, CancellationToken ct)
     {
         try
@@ -60,6 +72,9 @@ public class TagsController(TagService tagService) : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Delete(Guid id, CancellationToken ct)
     {
         try

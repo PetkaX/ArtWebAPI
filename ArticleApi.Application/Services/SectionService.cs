@@ -106,4 +106,8 @@ public class SectionService(ISectionRepository sectionRepository)
             [.. a.ArticleTags.OrderBy(at => at.Order).Select(at => new TagDto(at.Tag.Id, at.Tag.Name))]
         ))];
     }
+    public async Task AutoCreateSectionsAsync(CancellationToken ct)
+    {
+        await sectionRepository.AutoCreateSectionsAsync(ct);
+    }
 }

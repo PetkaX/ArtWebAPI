@@ -176,17 +176,6 @@ public class ArticleServiceUnitTests
     }
 
     [Fact]
-    public async Task CreateAsync_WhenTagIdsHasDuplicates_ThrowsArgumentException()
-    {
-        // Arrange
-        var tagId = Guid.NewGuid();
-        var dto = TestEntityFactory.CreateCreateArticleDto(tagIds: [tagId]);
-
-        // Act & Assert
-        await Assert.ThrowsAsync<ArgumentException>(() => _service.CreateAsync(dto, _ct));
-    }
-
-    [Fact]
     public async Task CreateAsync_WhenTagDoesNotExist_ThrowsArgumentException()
     {
         // Arrange

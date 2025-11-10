@@ -10,6 +10,8 @@ namespace ArticleApi.Presentation.Controllers;
 public class ArticlesController(ArticleService articleService) : ControllerBase
 {
     [HttpGet]
+    [ProducesResponseType(typeof(IEnumerable<ArticleDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<IEnumerable<ArticleDto>>> GetAll(CancellationToken ct)
     {
         var articles = await articleService.GetAllAsync(ct);
@@ -17,6 +19,9 @@ public class ArticlesController(ArticleService articleService) : ControllerBase
     }
 
     [HttpGet("{id:guid}")]
+    [ProducesResponseType(typeof(ArticleDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<ArticleDto>> GetById(Guid id, CancellationToken ct)
     {
         var article = await articleService.GetByIdAsync(id, ct);
@@ -24,6 +29,9 @@ public class ArticlesController(ArticleService articleService) : ControllerBase
     }
 
     [HttpPost]
+    [ProducesResponseType(typeof(ArticleDto), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<ArticleDto>> Create(CreateArticleDto dto, CancellationToken ct)
     {
         try
@@ -42,6 +50,10 @@ public class ArticlesController(ArticleService articleService) : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
+    [ProducesResponseType(typeof(ArticleDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Update(Guid id, UpdateArticleDto dto, CancellationToken ct)
     {
         try
@@ -60,6 +72,9 @@ public class ArticlesController(ArticleService articleService) : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Delete(Guid id, CancellationToken ct)
     {
         try

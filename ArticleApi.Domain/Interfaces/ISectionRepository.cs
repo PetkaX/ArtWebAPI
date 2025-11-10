@@ -10,4 +10,5 @@ public interface ISectionRepository
     Task DeleteAsync(Guid sectionId, CancellationToken ct);
 
     Task<List<Article>> GetArticlesBySectionAsync(Guid sectionId, CancellationToken ct);
+    Task AutoCreateSectionsAsync(CancellationToken ct);
 }

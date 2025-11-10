@@ -1,4 +1,4 @@
-using ArticleApi.Application.DTOs;
+п»їusing ArticleApi.Application.DTOs;
 using ArticleApi.Application.Services;
 using ArticleApi.Domain.Entities;
 using ArticleApi.Domain.Interfaces;
@@ -183,7 +183,7 @@ public class ArticleServiceUnitTests
         var dto = TestEntityFactory.CreateCreateArticleDto(tagIds: [tagId]);
 
         _mockRepo.Setup(r => r.GetExistingTagIdsAsync(It.IsAny<List<Guid>>(), _ct))
-            .ReturnsAsync([]); // тег не найден
+            .ReturnsAsync([]); // С‚РµРі РЅРµ РЅР°Р№РґРµРЅ
 
         // Act & Assert
         await Assert.ThrowsAsync<ArgumentException>(() => _service.CreateAsync(dto, _ct));
@@ -197,14 +197,14 @@ public class ArticleServiceUnitTests
         var tagId = Guid.NewGuid();
         var tagData = new List<(Guid, string, int)> { (tagId, "OldTag", 0) };
 
-        // Исходная статья (для обновления)
+        // РСЃС…РѕРґРЅР°СЏ СЃС‚Р°С‚СЊСЏ (РґР»СЏ РѕР±РЅРѕРІР»РµРЅРёСЏ)
         var existing = TestEntityFactory.CreateArticle(
             id: id,
             title: "Old",
             content: "Old",
             tagData: tagData);
 
-        // Обновлённая статья (для возврата после перезагрузки)
+        // РћР±РЅРѕРІР»С‘РЅРЅР°СЏ СЃС‚Р°С‚СЊСЏ (РґР»СЏ РІРѕР·РІСЂР°С‚Р° РїРѕСЃР»Рµ РїРµСЂРµР·Р°РіСЂСѓР·РєРё)
         var updatedArticle = TestEntityFactory.CreateArticle(
             id: id,
             title: "New",
@@ -213,18 +213,18 @@ public class ArticleServiceUnitTests
 
         var dto = new UpdateArticleDto("New", "New", [tagId]);
 
-        // Мок:
-        // первый вызов — получить статью для обновления
-        // повторный GetByIdAsync должен вернуть обновлённую сущность
+        // РњРѕРє:
+        // РїРµСЂРІС‹Р№ РІС‹Р·РѕРІ вЂ” РїРѕР»СѓС‡РёС‚СЊ СЃС‚Р°С‚СЊСЋ РґР»СЏ РѕР±РЅРѕРІР»РµРЅРёСЏ
+        // РїРѕРІС‚РѕСЂРЅС‹Р№ GetByIdAsync РґРѕР»Р¶РµРЅ РІРµСЂРЅСѓС‚СЊ РѕР±РЅРѕРІР»С‘РЅРЅСѓСЋ СЃСѓС‰РЅРѕСЃС‚СЊ
         _mockRepo.SetupSequence(r => r.GetByIdAsync(id, _ct))
             .ReturnsAsync(existing)
             .ReturnsAsync(updatedArticle);
 
-        // Мок: проверка существования тегов
+        // РњРѕРє: РїСЂРѕРІРµСЂРєР° СЃСѓС‰РµСЃС‚РІРѕРІР°РЅРёСЏ С‚РµРіРѕРІ
         _mockRepo.Setup(r => r.GetExistingTagIdsAsync(It.IsAny<List<Guid>>(), _ct))
             .ReturnsAsync([tagId]);
 
-        // Мок: обновление
+        // РњРѕРє: РѕР±РЅРѕРІР»РµРЅРёРµ
         _mockRepo.Setup(r => r.UpdateAsync(It.IsAny<Article>(), _ct)).Returns(Task.CompletedTask);
 
         // Act

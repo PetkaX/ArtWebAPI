@@ -1,4 +1,4 @@
-using ArticleApi.Domain.Entities;
+﻿using ArticleApi.Domain.Entities;
 using ArticleApi.Domain.Interfaces;
 using ArticleApi.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;

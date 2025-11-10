@@ -1,4 +1,4 @@
-using ArticleApi.Application.Services;
+п»їusing ArticleApi.Application.Services;
 using ArticleApi.Domain.Interfaces;
 using ArticleApi.Infrastructure.Data;
 using ArticleApi.Infrastructure.Repositories;
@@ -6,30 +6,30 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// добавляем сервисы
+// РґРѕР±Р°РІР»СЏРµРј СЃРµСЂРІРёСЃС‹
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// БД
+// Р‘Р”
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ArticleDbContext>(options =>
     options.UseNpgsql(connectionString));
 
 // Dependency Injection
-// Регистрируем все репозитории
+// Р РµРіРёСЃС‚СЂРёСЂСѓРµРј РІСЃРµ СЂРµРїРѕР·РёС‚РѕСЂРёРё
 builder.Services.AddScoped<IArticleRepository, ArticleRepository>();
 builder.Services.AddScoped<ISectionRepository, SectionRepository>();
 builder.Services.AddScoped<ITagRepository, TagRepository>();
 
-// Сервисы
+// РЎРµСЂРІРёСЃС‹
 builder.Services.AddScoped<ArticleService>();
 builder.Services.AddScoped<SectionService>();
 builder.Services.AddScoped<TagService>();
 
 var app = builder.Build();
 
-// миграции
+// РјРёРіСЂР°С†РёРё
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<ArticleDbContext>();
@@ -37,7 +37,7 @@ using (var scope = app.Services.CreateScope())
 }
 
 
-// для среды dev отображаем сваггер
+// РґР»СЏ СЃСЂРµРґС‹ dev РѕС‚РѕР±СЂР°Р¶Р°РµРј СЃРІР°РіРіРµСЂ
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -45,7 +45,7 @@ if (app.Environment.IsDevelopment())
     {
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "Article API v1");
         options.RoutePrefix = "swagger";
-        options.DocumentTitle = "Article API документация";
+        options.DocumentTitle = "Article API РґРѕРєСѓРјРµРЅС‚Р°С†РёСЏ";
     });
 }
 

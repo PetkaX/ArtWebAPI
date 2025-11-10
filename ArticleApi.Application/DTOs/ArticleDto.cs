@@ -1,4 +1,4 @@
-namespace ArticleApi.Application.DTOs;
+﻿namespace ArticleApi.Application.DTOs;
 public record ArticleDto(
     Guid Id,
     string Title,

@@ -1,4 +1,4 @@
-using ArticleApi.Domain.Entities;
+п»їusing ArticleApi.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace ArticleApi.Infrastructure.Data;
@@ -11,7 +11,7 @@ public class ArticleDbContext(DbContextOptions<ArticleDbContext> options) : DbCo
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // Статья
+        // РЎС‚Р°С‚СЊСЏ
         modelBuilder.Entity<Article>(entity =>
         {
             entity.HasKey(e => e.Id);
@@ -20,22 +20,22 @@ public class ArticleDbContext(DbContextOptions<ArticleDbContext> options) : DbCo
             entity.Property(e => e.CreatedAt).IsRequired();
         });
 
-        // Тэг
+        // РўСЌРі
         modelBuilder.Entity<Tag>(entity =>
         {
             entity.HasKey(e => e.Id);
             entity.Property(e => e.Name).IsRequired().HasMaxLength(256);
-            entity.HasIndex(e => e.Name).IsUnique(); // Регистрозависимый индекс
+            entity.HasIndex(e => e.Name).IsUnique(); // Р РµРіРёСЃС‚СЂРѕР·Р°РІРёСЃРёРјС‹Р№ РёРЅРґРµРєСЃ
         });
 
-        // Раздел
+        // Р Р°Р·РґРµР»
         modelBuilder.Entity<Section>(entity =>
         {
             entity.HasKey(e => e.Id);
             entity.Property(e => e.Title).IsRequired().HasMaxLength(1024);
         });
 
-        // Связь статей с тэгами
+        // РЎРІСЏР·СЊ СЃС‚Р°С‚РµР№ СЃ С‚СЌРіР°РјРё
         modelBuilder.Entity<ArticleTag>(entity =>
         {
             entity.HasKey(et => new { et.ArticleId, et.TagId });
@@ -52,7 +52,7 @@ public class ArticleDbContext(DbContextOptions<ArticleDbContext> options) : DbCo
                 .OnDelete(DeleteBehavior.Cascade);
         });
 
-        // Связь разделов с тэгами
+        // РЎРІСЏР·СЊ СЂР°Р·РґРµР»РѕРІ СЃ С‚СЌРіР°РјРё
         modelBuilder.Entity<SectionTag>(entity =>
         {
             entity.HasKey(et => new { et.SectionId, et.TagId });
@@ -69,20 +69,20 @@ public class ArticleDbContext(DbContextOptions<ArticleDbContext> options) : DbCo
                 .OnDelete(DeleteBehavior.Cascade);
         });
 
-        // Регистронезависимый уникальный индекс для Tag.Name
+        // Р РµРіРёСЃС‚СЂРѕРЅРµР·Р°РІРёСЃРёРјС‹Р№ СѓРЅРёРєР°Р»СЊРЅС‹Р№ РёРЅРґРµРєСЃ РґР»СЏ Tag.Name
         modelBuilder.Entity<Tag>()
             .HasIndex(t => t.Name)
             .IsUnique()
             .HasDatabaseName("IX_Tags_Name_UniqueIgnoreCase")
             .HasFilter("\"Name\" IS NOT NULL");
 
-        // Альтернатива: использование .HasCollation("case_insensitive") в PostgreSQL
-        // Но лучше — в миграции или вручную создать индекс с `LOWER("Name")`
+        // РђР»СЊС‚РµСЂРЅР°С‚РёРІР°: РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ .HasCollation("case_insensitive") РІ PostgreSQL
+        // РќРѕ Р»СѓС‡С€Рµ вЂ” РІ РјРёРіСЂР°С†РёРё РёР»Рё РІСЂСѓС‡РЅСѓСЋ СЃРѕР·РґР°С‚СЊ РёРЅРґРµРєСЃ СЃ `LOWER("Name")`
     }
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        // Преобразование имени тега в нормализованное (для регистронезависимости)
+        // РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ РёРјРµРЅРё С‚РµРіР° РІ РЅРѕСЂРјР°Р»РёР·РѕРІР°РЅРЅРѕРµ (РґР»СЏ СЂРµРіРёСЃС‚СЂРѕРЅРµР·Р°РІРёСЃРёРјРѕСЃС‚Рё)
         foreach (var entry in ChangeTracker.Entries<Tag>())
         {
             if (entry.State == EntityState.Added || entry.State == EntityState.Modified)

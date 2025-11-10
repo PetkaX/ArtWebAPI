@@ -1,9 +1,9 @@
-using System.ComponentModel.DataAnnotations;
+п»їusing System.ComponentModel.DataAnnotations;
 
 namespace ArticleApi.Domain.Entities;
 
 /// <summary>
-/// Статья
+/// РЎС‚Р°С‚СЊСЏ
 /// </summary>
 public class Article
 {

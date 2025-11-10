@@ -1,4 +1,4 @@
-using ArticleApi.Domain.Entities;
+﻿using ArticleApi.Domain.Entities;
 
 namespace ArticleApi.Domain.Interfaces;
 

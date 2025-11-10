@@ -1,4 +1,4 @@
-using ArticleApi.Application.DTOs;
+п»їusing ArticleApi.Application.DTOs;
 using ArticleApi.Application.Mappers;
 using ArticleApi.Application.Validators;
 using ArticleApi.Domain.Entities;
@@ -7,12 +7,12 @@ using ArticleApi.Domain.Interfaces;
 namespace ArticleApi.Application.Services;
 
 /// <summary>
-/// Сервис Статей.
+/// РЎРµСЂРІРёСЃ РЎС‚Р°С‚РµР№.
 /// </summary>
 public class ArticleService(IArticleRepository repository)
 {
     /// <summary>
-    /// Получить все статьи.
+    /// РџРѕР»СѓС‡РёС‚СЊ РІСЃРµ СЃС‚Р°С‚СЊРё.
     /// </summary>
     public async Task<IEnumerable<ArticleDto>> GetAllAsync(CancellationToken ct)
     {
@@ -21,7 +21,7 @@ public class ArticleService(IArticleRepository repository)
     }
 
     /// <summary>
-    /// Получить статью по ID.
+    /// РџРѕР»СѓС‡РёС‚СЊ СЃС‚Р°С‚СЊСЋ РїРѕ ID.
     /// </summary>
     public async Task<ArticleDto?> GetByIdAsync(Guid id, CancellationToken ct)
     {
@@ -30,19 +30,19 @@ public class ArticleService(IArticleRepository repository)
     }
 
     /// <summary>
-    /// Создать новую статью.
+    /// РЎРѕР·РґР°С‚СЊ РЅРѕРІСѓСЋ СЃС‚Р°С‚СЊСЋ.
     /// </summary>
     public async Task<ArticleDto> CreateAsync(CreateArticleDto dto, CancellationToken ct)
     {
         ArticleValidator.ValidateCreateDto(dto);
 
-        // Проверить существование тегов
+        // РџСЂРѕРІРµСЂРёС‚СЊ СЃСѓС‰РµСЃС‚РІРѕРІР°РЅРёРµ С‚РµРіРѕРІ
         var tagIds = dto.TagIds.Distinct().ToList();
         var existingTagIds = await repository.GetExistingTagIdsAsync(tagIds, ct);
         if (existingTagIds.Count != tagIds.Count)
         {
             var missing = string.Join(", ", tagIds.Except(existingTagIds));
-            throw new ArgumentException($"Теги не найдены: {missing}");
+            throw new ArgumentException($"РўРµРіРё РЅРµ РЅР°Р№РґРµРЅС‹: {missing}");
         }
 
         var article = new Article
@@ -64,21 +64,21 @@ public class ArticleService(IArticleRepository repository)
     }
 
     /// <summary>
-    /// Обновить статью.
+    /// РћР±РЅРѕРІРёС‚СЊ СЃС‚Р°С‚СЊСЋ.
     /// </summary>
     public async Task<ArticleDto> UpdateAsync(Guid id, UpdateArticleDto dto, CancellationToken ct)
     {
         ArticleValidator.ValidateUpdateDto(dto);
 
-        var existing = await repository.GetByIdAsync(id, ct) ?? throw new InvalidOperationException("Статья не найдена.");
+        var existing = await repository.GetByIdAsync(id, ct) ?? throw new InvalidOperationException("РЎС‚Р°С‚СЊСЏ РЅРµ РЅР°Р№РґРµРЅР°.");
 
-        // Проверить существование тегов
+        // РџСЂРѕРІРµСЂРёС‚СЊ СЃСѓС‰РµСЃС‚РІРѕРІР°РЅРёРµ С‚РµРіРѕРІ
         var tagIds = dto.TagIds.Distinct().ToList();
         var existingTagIds = await repository.GetExistingTagIdsAsync(tagIds, ct);
         if (existingTagIds.Count != tagIds.Count)
         {
             var missing = string.Join(", ", tagIds.Except(existingTagIds));
-            throw new ArgumentException($"Теги не найдены: {missing}");
+            throw new ArgumentException($"РўРµРіРё РЅРµ РЅР°Р№РґРµРЅС‹: {missing}");
         }
 
         existing.Title = dto.Title.Trim();
@@ -94,18 +94,18 @@ public class ArticleService(IArticleRepository repository)
         }));
 
         await repository.UpdateAsync(existing, ct);
-        var updatedArticle = await repository.GetByIdAsync(id, ct) ?? throw new Exception("Ошибка обновления данных в БД.");
+        var updatedArticle = await repository.GetByIdAsync(id, ct) ?? throw new Exception("РћС€РёР±РєР° РѕР±РЅРѕРІР»РµРЅРёСЏ РґР°РЅРЅС‹С… РІ Р‘Р”.");
         return ArticleMapper.MapToDto(updatedArticle);
     }
 
     /// <summary>
-    /// Удалить статью по ID.
+    /// РЈРґР°Р»РёС‚СЊ СЃС‚Р°С‚СЊСЋ РїРѕ ID.
     /// </summary>
     public async Task DeleteAsync(Guid id, CancellationToken ct)
     {
         var exists = await repository.ExistsAsync(id, ct);
         if (!exists)
-            throw new InvalidOperationException("Статья не найдена.");
+            throw new InvalidOperationException("РЎС‚Р°С‚СЊСЏ РЅРµ РЅР°Р№РґРµРЅР°.");
 
         await repository.DeleteAsync(id, ct);
     }

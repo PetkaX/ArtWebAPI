@@ -9,31 +9,31 @@
 - **PostgreSQL** — основная БД (рекомендуется)
 - **C# 12** — позиционные `record`, `Primary Constructors`, `Required` и т.д.
 - **xUnit + Moq** — модульные тесты
-- **AutoMapper / ручное маппинг** — DTO
-- **MediatR (опционально)** — CQRS (если используется)
+- **Маппинг** — DTO
 
 ## 🗂️ Структура проекта
 ```
 ArticleApi/ 
-│ ├── ArticleApi.Application/ # DTO, сервисы, интерфейсы 
-│ ├── ArticleApi.Domain/ # Сущности, Value Objects 
-│ ├── ArticleApi.Infrastructure/ # EF Core, репозитории, реализации 
-│ ├── ArticleApi.Api/ # Контроллеры, Startup, Program.cs 
-│ ├── ArticleApi.Tests.Unit/ # Юнит-тесты (xUnit, Moq) 
-│ └── ArticleApi.Tests.Integration/ (опционально) 
+├── ArticleApi.Application/    # DTO, сервисы, интерфейсы 
+├── ArticleApi.Domain/         # Сущности, Value Objects 
+├── ArticleApi.Infrastructure/ # EF Core, репозитории, реализации 
+├── ArticleApi.Api/            # Контроллеры, Startup, Program.cs 
+├── ArticleApi.Tests.Unit/     # Юнит-тесты (xUnit, Moq) 
 ├── .gitignore 
 ├── README.md 
 └── ArticleApi.sln
 ```
 
-Структура проекта:
+🔎 Структура решения с пояснениями:
+| подпроект проект | пояснение |
+|--------|--------|
+|ArticleApi.Application/  | ← Бизнес-логика (Use Cases, DTOs, Interfaces) |
+|ArticleApi.Domain/ | ← Модели предметной области (Entities, Interfaces)  |
+|ArticleApi.Infrastructure/ | ← Реализация репозиториев, DbContext, конфигурация  |
+|ArticleApi.Presentation/ | ← Web API (Controllers, Startup, Middleware)  |
+|ArticleApi.Tests/  | ← Юнит/интеграционные тесты |
 
-ArticleApi.Application/       ← Бизнес-логика (Use Cases, DTOs, Interfaces)
-ArticleApi.Domain/            ← Модели предметной области (Entities, Interfaces)
-ArticleApi.Infrastructure/    ← Реализация репозиториев, DbContext, конфигурация
-ArticleApi.Presentation/      ← Web API (Controllers, Startup, Middleware)
-ArticleApi.Tests/             ← Юнит/интеграционные тесты
-
+```
 ArticleApi.Domain — Чистая доменная модель.
 Содержит сущности и абстракции (интерфейсы репозиториев)
 
@@ -45,7 +45,7 @@ ArticleApi.Infrastructure — Доступ к данным.
 
 ArticleApi.Presentation — ASP.NET Core Web API.
 Точка входа Application.
-
+```
 
 ## 🚀 Запуск проекта
 
@@ -70,14 +70,14 @@ dotnet restore
 docker run -d --name pg-article -e POSTGRES_PASSWORD=yourpassword -p 5432:5432 postgres:16
 ```
 
-###3. Применение миграций
+### 3. Применение миграций
 ```
-dotnet ef database update --project src/ArticleApi.Infrastructure --startup-project src/ArticleApi.Api
+dotnet ef database update --project ArticleApi.Infrastructure --startup-project ArticleApi.Api
 ```
 
-###4. Запуск API
+### 4. Запуск API
 ```
-dotnet run --project src/ArticleApi.Api
+dotnet run --project  ArticleApi.Api
 ```
 API будет доступно по адресу: https://localhost:5001 или http://localhost:5000
 
@@ -88,7 +88,7 @@ dotnet test
 ```
 или
 ```
-dotnet test tests/ArticleApi.Tests.Unit
+dotnet test ArticleApi.Tests
 ```
 
 ## 🧩 Основные сущности
@@ -163,9 +163,6 @@ docker run -d -p 8080:80 --name my-articleapi articleapi
 
 ## 🧑‍💻 Автор
 
-Гришко Пётр Юрьевич — разработчик API
+**Гришко Пётр Юрьевич** — разработчик API
+![telegram](https://cdn-icons-png.flaticon.com/128/2111/2111646.png) https://t.me/petkax
 
-
-## 📄 Лицензия
-
-MIT
